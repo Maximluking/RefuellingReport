@@ -3,7 +3,10 @@ package ServiceDAO;
 import service.DateService;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 
 public class ServiceDAO {
@@ -31,7 +34,7 @@ public class ServiceDAO {
             Class.forName(DriverName);
             try {
                     connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;\" +  \n" +
-                                "   \"databaseName=Tracker;user=phpserverscripts;password=1iF#%sqdlGKpEHbaio8p3cS$;");
+                            "   \"databaseName=Tracker;user=?;password=?;");
                     statement = connection.createStatement();
                     result = statement.executeUpdate("INSERT INTO Tracker.dbo.tracking_new\n" +
                             "           (unit\n" +
