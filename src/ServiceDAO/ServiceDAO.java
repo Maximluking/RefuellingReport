@@ -78,3 +78,4 @@ public class ServiceDAO {
         }else {System.out.println("Process has finished on time: " + tempStopDate + ".");}
     }
 }
+//add commit
