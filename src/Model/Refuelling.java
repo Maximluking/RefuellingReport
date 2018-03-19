@@ -68,16 +68,16 @@ public class Refuelling {
 
     @Override
     public String toString() {
-        return "groupName:'" + groupName + '\'' +
-                ", name:'" + name + '\'' +
-                ", unit:'" + unit + '\'' +
-                ", dt:'" + dt + '\'' +
-                ", x:'" + x + '\'' +
-                ", y:'" + y + '\'' +
-                ", location:'" + location + '\'' +
-                ", inout:'" + inout + '\'' +
-                ", dtStop:'" + dtStop + '\'' +
-                ", dtStart:'" + dtStart + '\'';
+        return groupName + ";" +
+                name + ";" +
+                unit + ";" +
+                dt + ";" +
+                x + ";" +
+                y + ";" +
+                location + ";" +
+                inout + ";" +
+                dtStop + ";" +
+                dtStart + ";";
     }
 }
 

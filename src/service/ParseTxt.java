@@ -23,7 +23,7 @@ public class ParseTxt {
                 bw.write(refuelling.toString() + "\r\n");
             }
             bw.close();
-            System.out.printf("BASE is saved successfully to file: %s\n", tempFile.getAbsolutePath());
+            System.out.printf("BASE is saved successfully:" + ServiceDAO.tempStopDate);
         }
     }
 }

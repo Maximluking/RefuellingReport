@@ -13,7 +13,7 @@ import java.util.List;
 public class ServiceDAO {
 
     final static String DriverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    public static String startPoint = "2017-01-01 00:00:00.000";
+    public static String startPoint = "2017-12-01 00:00:00.000";
     public static String endPoint = "2018-03-01 00:00:00.000";
     public static String tempDate = startPoint;
     public static String tempStopDate;
@@ -35,12 +35,12 @@ public class ServiceDAO {
             Class.forName(DriverName);
             try (
                     Connection connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;\" +  \n" +
-                            "   \"databaseName=Tracker;user=xxx;password=xxx;");
+                            "   \"databaseName=Tracker;XXX;XXX;");
                     PreparedStatement ps = connection.prepareStatement("SELECT g.name as group_name, v.Name as name, v.unit, r.dt, f.x, f.y, r.location, r.inout, \n" +
-                            "(SELECT TOP 1 rd.dt FROM Tracker.dbo.trackingT rd with (nolock) \n" +
+                            "(SELECT TOP 1 rd.dt FROM Tracker.dbo.tracking rd with (nolock) \n" +
                             "WHERE rd.unit=r.unit AND rd.dt>='" + tempDate + "' AND rd.dt<=DATEADD(s, r.dt, '19700101') \n" +
                             "AND rd.event IN ('0', '00') ORDER BY rd.dt DESC) as stop_dt,\n" +
-                            " (SELECT TOP 1 tr.dt FROM Tracker.dbo.trackingT tr \n" +
+                            " (SELECT TOP 1 tr.dt FROM Tracker.dbo.tracking tr \n" +
                             " WHERE tr.dt<='" + dateService.nextDay(tempDate) + "' AND tr.unit=r.unit AND tr.dt>=DATEADD(s, r.dt, '19700101')\n" +
                             "  AND tr.event IN ('0', '00') ORDER BY tr.dt ASC)\n" +
                             "   as start_dt FROM Tracker.dbo.fuel f, Tracker.dbo.vehicles v, Tracker.dbo.groups g, Tracker.dbo.ReportData r with (nolock) \n" +
@@ -54,7 +54,7 @@ public class ServiceDAO {
                     String groupName = resultSet.getString("group_name");
                     String name = resultSet.getString("name");
                     String unit = resultSet.getString("unit");
-                    String dt = resultSet.getString("dt");
+                    String dt = dateService.convertUnixToHumanTime(resultSet.getString("dt"));
                     String x = resultSet.getString("x");
                     String y = resultSet.getString("y");
                     String location = resultSet.getString("location");
@@ -69,10 +69,9 @@ public class ServiceDAO {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-
                 tempStopDate = dateService.nextDay(tempDate);
-                tempDate = tempStopDate;
                 parseTxt.saveResultToFile(refuellings);
+                tempDate = tempStopDate;
                 getRefuellingReport();
             }
         }else {System.out.println("Process has finished on time: " + tempStopDate + ".");}
